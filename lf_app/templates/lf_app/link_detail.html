@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Link Detail{% endblock %}
+
+{% block content %}
+
+<table class="table">
+  <tr>
+    <th>
+      Title
+    </th>
+    <td>
+      {{ link.title }}
+    </td>
+  </tr>
+
+  <tr>
+    <th>
+      URL
+    </th>
+    <td>
+      <a href="{{ link.url }}">{{ link.url }}</a>
+    </td>
+  </tr>
+
+  <tr>
+    <th>
+      Notes
+    </th>
+    <td>
+      {{ link.notes }}
+    </td>
+  </tr>
+
+  <tr>
+    <th>
+      Dates
+    </th>
+    <td>
+      Created on {{ link.created_on }}, last update on {{ link.updated_on }}
+    </td>
+  </tr>
+
+
+  <tr>
+    <th>
+      Owner
+    </th>
+    <td>
+      {{ link.owner }}
+    </td>
+  </tr>
+
+</table>
+
+<p>
+  <a class="btn btn-primary" href="{% url 'lf:link_edit' link.id %}">Edit</a>
+  <a class="btn btn-danger" href="{% url 'lf:link_delete' link.id %}">Delete</a>
+
+</p>
+
+
+{% endblock %}

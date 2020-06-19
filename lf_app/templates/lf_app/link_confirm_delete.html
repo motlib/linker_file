@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Link Detail{% endblock %}
+
+{% block content %}
+
+Do you really want to delete the link '{{ link.title}}'?
+
+<form method="post">
+  {% csrf_token %}
+
+  <button class="btn btn-danger" type="submit">Delete!</button>
+  <a class="btn btn-secondary" href="{% url 'lf:link' link.id %}">Cancel</a>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+<div class="card mt-3">
+  <div class="card-body">
+    <a class="h5 card-title" href="{% url 'lf:link_open' link.id %}">{{link.title}}</a>
+    <div class="card-text">
+      <p>{{ link.notes }}</p>
+
+      <div class="text-muted">
+        Tags: {% for tag in link.tags.all %}
+        <a href="#" class="badge badge-primary">{{tag}}</a>
+        {% endfor %}<br />
+        Created: {{ link.created_on }}, updated: {{ link.updated }}<br />
+        Followed: {{ link.follow_count }}
+      </div>
+    </div>
+    <a class="card-link" href="{% url 'lf:link' link.id %}">Info</a>
+    <a class="card-link" href="{% url 'lf:link_edit' link.id %}">Edit</a>
+  </div>
+</div>
