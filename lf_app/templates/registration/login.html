@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+
+{% if next %}
+{% if user.is_authenticated %}
+<p class="alert alert-danger">
+  Your account doesn't have access to this page. To proceed, please login with
+  an account that has access.
+</p>
+{% else %}
+<p class="alert alert-info">Please log in to see the requested page.</p>
+{% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+  {% if form.non_field_errors %}
+  <div class="alert alert-block alert-danger">
+    <ul class="list-unstyled m-0">
+      {% for error in form.non_field_errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% csrf_token %}
+
+  <div class="form-row justify-content-center">
+    <div class="form-group col-md-3 mb-0">
+      {{ form.username | as_crispy_field }}
+    </div>
+  </div>
+  <div class="form-row justify-content-center">
+    <div class="form-group col-md-3 mb-0">
+      {{ form.password | as_crispy_field }}
+    </div>
+  </div>
+  <div class="form-row justify-content-center">
+    <button class="btn btn-primary" type="submit">Login</button>
+    <input type="hidden" name="next" value="{{ next }}">
+  </div>
+  <div class="form-row justify-content-center mt-3">
+    {# Assumes you setup the password_reset view in your URLconf #}
+    <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+  </div>
+</form>
+
+
+{% endblock %}

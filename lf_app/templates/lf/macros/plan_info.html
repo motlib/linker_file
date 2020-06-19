@@ -1,0 +1,10 @@
+{# short information / description of a plan #}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'dbloc:index' %}">Home</a></li>
+    {% for p in plan.get_root_path %}
+    <li class="breadcrumb-item"><a href="{% url 'dbloc:plan' p.id %}">{{p.name}}</a></li>
+    {% endfor %}
+  </ol>
+</nav>
