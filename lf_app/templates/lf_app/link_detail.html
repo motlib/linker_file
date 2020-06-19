@@ -61,4 +61,10 @@
 </p>
 
 
+<h2>Related Links</h2>
+{% for link in related %}
+{% include 'lf_app/macros/link_card.html' with link=link %}
+{% endfor %}
+
+
 {% endblock %}

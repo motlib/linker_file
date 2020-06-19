@@ -1,18 +1,27 @@
 <div class="card mt-3">
-  <div class="card-body">
+  <div class="card-header">
     <a class="h5 card-title" href="{% url 'lf:link_open' link.id %}">{{link.title}}</a>
+  </div>
+  <div class="card-body">
     <div class="card-text">
+      {% if link.notes %}
       <p>{{ link.notes }}</p>
+      {% endif %}
 
       <div class="text-muted">
-        Tags: {% for tag in link.tags.all %}
-        <a href="#" class="badge badge-primary">{{tag}}</a>
-        {% endfor %}<br />
-        Created: {{ link.created_on }}, updated: {{ link.updated }}<br />
+        {% if link.tags.all %}
+        Tags:
+        {% for tag in link.tags.all %}
+        <a href="{% url 'lf:links_tagged' tag.name %}" class="badge badge-primary">{{tag.name}}</a>
+
+        {% endfor %}
+        {% endif %}<br />
+        Created: {{ link.created_on }}, updated: {{ link.updated_on }}<br />
         Followed: {{ link.follow_count }}
       </div>
+
+      <a class="card-link" href="{% url 'lf:link' link.id %}">Info</a>
+      <a class="card-link" href="{% url 'lf:link_edit' link.id %}">Edit</a>
     </div>
-    <a class="card-link" href="{% url 'lf:link' link.id %}">Info</a>
-    <a class="card-link" href="{% url 'lf:link_edit' link.id %}">Edit</a>
   </div>
 </div>

@@ -1,13 +1,14 @@
 '''Views for the `loc` app'''
 
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.urls import reverse_lazy
-from django.http import Http404
-from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
 
 from .models import Link
 from .forms import LinkForm
@@ -55,12 +56,43 @@ class LinkIndexView(ListView):
     paginate_by = 10
 
 
+class TaggedLinksView(ListView):
+    context_object_name = 'links'
+
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['tag'] = self.kwargs['tag']
+
+        return context
+
+    def get_queryset(self):
+        qs = Link.objects.filter(tags__name__in=[self.kwargs['tag']]).order_by('-created_on')
+
+        return qs
+
+
 class LinkDetailView(DetailView):
+    '''Show details of a link.'''
+
     model = Link
     context_object_name = 'link'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        related_links = self.object.tags.similar_objects()
+
+        context['related'] = related_links
+
+        return context
+
 
 class LinkCreateView(CreateView):
+    '''View to create a new link.'''
+
     model = Link
     form_class = LinkForm
 
@@ -77,6 +109,8 @@ class LinkCreateView(CreateView):
 
 
 class LinkUpdateView(UpdateView):
+    '''View to edit a link.'''
+
     model = Link
     form_class = LinkForm
 
@@ -92,5 +126,32 @@ class LinkUpdateView(UpdateView):
 
 
 class LinkDeleteView(DeleteView):
+    '''Delete a link.'''
     model = Link
     success_url = reverse_lazy('index')
+
+
+def link_search(request):
+    term_str = request.GET.get('term', '')
+
+    terms = term_str.split(' ')
+
+    tags = [term[4:] for term in terms if term.startswith('tag:')]
+    words = [term for term in terms if not term.startswith('tag:')]
+
+
+    qs = Link.objects
+
+    for word in words:
+        qs = qs.filter(Q(title__icontains=word) | Q(notes__icontains=word)) \
+
+    if tags:
+        qs = qs.filter(tags__name__in=tags)
+
+    links = qs.order_by('-created_on')
+
+    context = {
+        'links': links,
+    }
+
+    return render(request, 'lf_app/link_list.html', context)
