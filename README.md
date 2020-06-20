@@ -1,11 +1,7 @@
-# dbloc
+# linker_file
 
-`dbloc` is the Django Building Locator. This is a Django based web-application
-to manage plans of buildings and link between them. It can e.g. be used for
-in-house navigation on a company site.
-
-Currently this is a training application, i.e. I write it to learn django
-development and not to provide a feature-complete application.
+`linker_file` is a simple bookmark manager written in Python and based on the
+Django framework.
 
 ## License
 
