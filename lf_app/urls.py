@@ -16,6 +16,8 @@ urlpatterns = [
     path('link/open/<int:pk>/', views.link_open, name='link_open'),
     path('search/', views.link_search, name='search'),
 
+    path('find_meta', views.find_metadata, name='find_meta'),
+
     path('bookmarklet/', views.bookmarklet_view, name='bookmarklet'),
     path('info/', views.info, name='info'),
 ]

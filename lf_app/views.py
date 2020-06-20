@@ -3,7 +3,7 @@
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
@@ -15,6 +15,7 @@ from .forms import LinkForm
 
 from lf_project import versioninfo
 
+from web_meta import find_website_meta
 
 def index(request):
     return render(request, 'lf_app/index.html')
@@ -180,3 +181,14 @@ def bookmarklet_view(request):
     }
 
     return render(request, 'lf_app/bookmarklet.html', context)
+
+
+def find_metadata(request):
+    url = request.GET.get('url', '')
+
+    if not 'url':
+        raise Http404()
+
+    metadata = find_website_meta(url)
+
+    return JsonResponse(metadata)

@@ -10,3 +10,10 @@ Pillow==7.1.1
 pytz==2019.3
 PyYAML==5.3.1
 sqlparse==0.3.1
+
+# for retrieving website metadata
+requests
+beautifulsoup4
+
+# logging
+colorlog

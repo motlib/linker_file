@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags static %}
 
 {% block title %}Edit Link{% endblock %}
 
 {% block content %}
 
-<form method="post">
+<p>
+  <form method="post">
   {% csrf_token %}
 
   {% include 'lf_app/macros/form_errors.html' with form=form %}
@@ -34,5 +35,21 @@
   <button class="btn btn-primary" type="submit">Submit</button>
   <a class="btn btn-secondary" href="{% url 'lf:index' %}">Cancel</a>
 </form>
+</p>
 
+<div class="row">
+  <div class="col-3">
+    <button id="btn_web_meta"
+            class="btn btn-primary"
+            type="button">Retrieve Metadata</button>
+  </div>
+  <div class="col-9">
+    <div id="lb_status"></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'lf_app/js/web_meta.js' %}"></script>
 {% endblock %}

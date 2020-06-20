@@ -119,6 +119,67 @@ USE_L10N = True
 USE_TZ = True
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        # verbose log message formatter
+        'verbose': {
+            '()': 'colorlog.ColoredFormatter',
+            'format': '[{asctime}] {log_color}{levelname:<8}{reset} {name}.{funcName}:{lineno} {message}',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+            'style': '{',
+        },
+
+        # simple log message format, currently not in use
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        # log messages to console (stdout)
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+
+        # Handler to log everything up to DEBUG level to file with log
+        # rotation. Currently not in use, as docker container handles log data
+        # written to console
+        #'file': {
+        #    'level': 'DEBUG',
+        #    'class': 'logging.handlers.RotatingFileHandler',
+        #    'filename': os.path.abspath(os.path.join(BASE_DIR, 'log', 'varweb.log')),
+        #    'formatter': 'verbose',
+        #    'maxBytes': 1024 * 1024 * 5, # 5 MB
+        #    'backupCount': 5,
+        #},
+    },
+
+    # root logger catches all log messages. Everything warning and above is sent
+    # to the console and to the log file. Change the level e.g. to 'DEBUG' for
+    # the development settings
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+
+    # Loggers below the django hierarchy log to console with warning level, but
+    # do not propagate to the root logger
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'WARNING'),
+            'propagate': False,
+        },
+    },
+}
+
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
