@@ -40,3 +40,7 @@ class Link(models.Model):
 
     def get_absolute_url(self):
         return reverse('lf:link', args=[self.id])
+
+
+    def get_tags(self):
+        return self.tags.order_by('name')

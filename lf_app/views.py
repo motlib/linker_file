@@ -20,12 +20,6 @@ def index(request):
     return render(request, 'lf_app/index.html')
 
 
-def search(request):
-    '''View for search results.'''
-
-    raise Http404()
-
-
 def info(request):
     '''View to show application info.'''
 
@@ -96,6 +90,17 @@ class LinkCreateView(CreateView):
     model = Link
     form_class = LinkForm
 
+    def get_initial(self):
+        '''Set initial data if we get it through the get request.'''
+
+        initial = super().get_initial()
+
+        initial['url'] = self.request.GET.get('url', '')
+        initial['title'] = self.request.GET.get('title', '')
+
+        return initial
+
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.owner = self.request.user
@@ -128,7 +133,7 @@ class LinkUpdateView(UpdateView):
 class LinkDeleteView(DeleteView):
     '''Delete a link.'''
     model = Link
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('lf:index')
 
 
 def link_search(request):
@@ -139,14 +144,15 @@ def link_search(request):
     tags = [term[4:] for term in terms if term.startswith('tag:')]
     words = [term for term in terms if not term.startswith('tag:')]
 
-
     qs = Link.objects
 
     for word in words:
         qs = qs.filter(Q(title__icontains=word) | Q(notes__icontains=word)) \
 
-    if tags:
-        qs = qs.filter(tags__name__in=tags)
+    for tag in tags:
+        qs = qs.filter(tags__name__in=[tag])
+
+    qs.distinct()
 
     links = qs.order_by('-created_on')
 
@@ -155,3 +161,22 @@ def link_search(request):
     }
 
     return render(request, 'lf_app/link_list.html', context)
+
+
+def tags_list(request):
+    tags = Link.tags.order_by('name').all()
+
+    context = {
+        'tags': tags,
+    }
+
+    return render(request, 'lf_app/tags_list.html', context)
+
+def bookmarklet_view(request):
+    '''View to show the bootmarklet link.'''
+
+    context = {
+        'siteurl': 'http://localhost:8000'
+    }
+
+    return render(request, 'lf_app/bookmarklet.html', context)

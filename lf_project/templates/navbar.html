@@ -1,4 +1,7 @@
 {# main navigation bar fragment #}
+
+{% load static %}
+
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <a class="navbar-brand" href="{% url 'lf:index' %}">linker_file</a>
 
@@ -13,7 +16,8 @@
 
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'lf:link_create' %}">Add Link</a>
+        <a class="nav-link" href="{% url 'lf:link_create' %}">
+          <img src="{% static 'plus-5-32.png' %}" width="16" height="16"> Add Link</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'admin:index' %}">Administration</a>

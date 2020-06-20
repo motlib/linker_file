@@ -10,7 +10,26 @@
 
   {% include 'lf_app/macros/form_errors.html' with form=form %}
 
-  {{ form | crispy }}
+  <div class="form-row">
+    <div class="col">
+      {{ form.url | as_crispy_field }}
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-6">
+      {{ form.title | as_crispy_field }}
+    </div>
+    <div class="col-6">
+      {{ form.tags | as_crispy_field }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      {{ form.notes | as_crispy_field }}
+    </div>
+  </div>
 
   <button class="btn btn-primary" type="submit">Submit</button>
   <a class="btn btn-secondary" href="{% url 'lf:index' %}">Cancel</a>

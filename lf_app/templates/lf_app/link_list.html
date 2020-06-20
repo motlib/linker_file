@@ -4,8 +4,13 @@
 {% block title %}Latest Links{% endblock %}
 
 {% block content %}
+
 {% if tag %}
-Results for tag: {{ tag }}
+<p>
+  Results for tag:
+  <a class="badge badge-primary"
+     href="{% url 'lf:links_tagged' tag %}">{{ tag }}</a>
+</p>
 {% endif %}
 
 

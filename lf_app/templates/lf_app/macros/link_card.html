@@ -9,19 +9,20 @@
       {% endif %}
 
       <div class="text-muted">
-        {% if link.tags.all %}
+        {% with link.get_tags as tags %}
+        {% if tags %}
         Tags:
-        {% for tag in link.tags.all %}
+        {% for tag in tags %}
         <a href="{% url 'lf:links_tagged' tag.name %}" class="badge badge-primary">{{tag.name}}</a>
-
         {% endfor %}
         {% endif %}<br />
+        {% endwith %}
         Created: {{ link.created_on }}, updated: {{ link.updated_on }}<br />
         Followed: {{ link.follow_count }}
       </div>
 
-      <a class="card-link" href="{% url 'lf:link' link.id %}">Info</a>
-      <a class="card-link" href="{% url 'lf:link_edit' link.id %}">Edit</a>
+      <a class="btn-sm btn-primary" href="{% url 'lf:link' link.id %}">Info</a>
+      <a class="btn-sm btn-primary" href="{% url 'lf:link_edit' link.id %}">Edit</a>
     </div>
   </div>
 </div>

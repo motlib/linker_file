@@ -4,6 +4,19 @@
 
 
 {% block content %}
+
+<h2>Bookmarklet</h2>
+
+<p>
+  Please drag&amp;drop the following bookmarklet into your bookmark bar:
+</p>
+
+<p class="text-center">
+  <a class="badge badge-primary"
+     href="{% include 'lf_app/macros/bootmarklet.js' with siteurl=siteurl %}"><span class="h1">linker_file</span></a>
+</p>
+
+
 <h2>Version Information</h2>
 
 <div class="row mt-4">
