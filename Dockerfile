@@ -20,16 +20,11 @@ RUN apk update \
         && mkdir /run/nginx
 COPY tools/nginx.conf /etc/nginx/conf.d/default.conf
 
-RUN mkdir -p ${APP_DIR} ${APP_DIR}/media
 WORKDIR /${APP_DIR}
 
-# Install python packages (needs -dev packages for building, can be removed later)
-ADD requirements ${APP_DIR}/requirements
-RUN apk --no-cache add jpeg-dev zlib-dev musl-dev build-base \
-        && python3 -m pip install --no-cache-dir -r requirements/prod.txt \
-        && apk --no-cache del build-base jpeg-dev zlib-dev musl-dev \
-        && apk --no-cache add musl zlib jpeg \
-        && rm -rf /var/cache/apk/*
+# Install python packages
+COPY requirements.txt ${APP_DIR}/requirements.txt
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
 # Add the application
 ADD . ${APP_DIR}

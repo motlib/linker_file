@@ -39,7 +39,7 @@ docker:
 
 	docker build --build-arg CN_MIRROR=${CN_MIRROR} --tag $(DOCKER_REPO):$(DOCKER_TAG) .
 
-	git checkout dbloc_project/versioninfo.py
+	git checkout lf_project/versioninfo.py
 
 	echo -e "\nINFO: Created docker image '$(DOCKER_REPO):$(DOCKER_TAG)'.\n"
 
@@ -47,7 +47,7 @@ docker:
 # Build and run the docker image
 .PHONY: docker_run
 docker_run: docker
-	docker run --rm --name dbloc -p 8000:80 $(DOCKER_REPO):$(DOCKER_TAG)
+	docker run --rm --name linker_file -p 8000:80 $(DOCKER_REPO):$(DOCKER_TAG)
 
 
 # publish the docker image to docker hub. This is intended to be run as a
@@ -75,4 +75,4 @@ lint:
 	pylint --rcfile pylintrc \
 	    --output-format colorized \
 	    --load-plugins pylint_django \
-	    dbloc loc
+	    lf_project lf_app
