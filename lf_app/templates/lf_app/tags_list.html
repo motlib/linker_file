@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Tags{% endblock %}
+
+{% block content %}
+{% for tag in tags %}
+<a class="badge badge-primary" href="{% url 'lf:links_tagged' tag %}">{{ tag }}</a>
+{% endfor %}
+
+{% include 'pagination.html' with page_obj=page_obj %}
+
+{% endblock %}

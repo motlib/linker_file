@@ -173,15 +173,6 @@ def tags_list(request):
 
     return render(request, 'lf_app/tags_list.html', context)
 
-def bookmarklet_view(request):
-    '''View to show the bootmarklet link.'''
-
-    context = {
-        'siteurl': 'http://localhost:8000'
-    }
-
-    return render(request, 'lf_app/bookmarklet.html', context)
-
 
 def find_metadata(request):
     url = request.GET.get('url', '')
