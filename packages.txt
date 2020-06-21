@@ -1,0 +1,18 @@
+# -*- mode:conf -*-
+#
+# This file lists the required top-level packages
+#
+
+# base packages
+Django
+django-debug-toolbar
+django-crispy-forms
+django-taggit
+gunicorn
+
+# for retrieving website metadata
+requests
+beautifulsoup4
+
+# logging
+colorlog

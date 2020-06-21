@@ -1,0 +1,12 @@
+# -*- mode:conf -*-
+#
+# This file lists the required top-level development packages
+#
+
+# linting
+pylint
+pylint-django
+
+# unit testing
+pytest
+pytest-django

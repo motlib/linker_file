@@ -15,7 +15,9 @@ else
   DOCKER_TAG=testing
 endif
 
-# Remove and create a new virtualenv with all dependencies installed.
+# Remove and create a new virtualenv with all dependencies installed. This
+# restores the environment as defined in the `requirements.txt` and
+# `requirements_dev.txt` files.
 .PHONY: setup
 setup:
 	rm -rf .venv; \
@@ -23,6 +25,18 @@ setup:
 	source ./.venv/bin/activate; \
 	python -m pip install -r requirements.txt; \
 	python -m pip install -r requirements_dev.txt
+
+
+# upgrade all python packages to the latest version and freeze the environment
+.PHONY: upgrade
+upgrade:
+	rm -rf .venv; \
+	python3 -m venv .venv; \
+	source ./.venv/bin/activate; \
+	python -m pip install -r packages.txt; \
+	python -m pip freeze > requirements.txt; \
+	python -m pip install -r packages_dev.txt; \
+	python -m pip freeze > requirements_dev.txt; \
 
 
 # set to
